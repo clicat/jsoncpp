@@ -151,14 +151,21 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         add_compile_options(-Werror=conversion)
     endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Intel")
+    message(STATUS "INTEL")
+
     # using Intel compiler
-    add_compile_options(-Wall -Wconversion -Wshadow -Wextra -fp-model=precise)
+    add_compile_options(-Wall -Wconversion -Wshadow -Wextra)
 
     if(JSONCPP_WITH_WARNING_AS_ERROR)
         add_compile_options(-Werror=conversion)
     elseif(JSONCPP_WITH_STRICT_ISO)
         add_compile_options(-Wpedantic)
     endif()
+endif()
+if(CMAKE_CXX_COMPILER MATCHES "icpx")
+    # using new intel oneapi compiler, that is also Clang
+    add_definitions(-DINTEL)
+    add_compile_options(-Wall -Wconversion -Wshadow -Wextra -fp-model=precise)
 endif()
 
 if(JSONCPP_WITH_WARNING_AS_ERROR)
